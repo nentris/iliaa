@@ -8,10 +8,29 @@ int main() {
 	size_t size;
 	char string[] = "Hello from pipe!\n";
 	char resstring[17];
+	result = fork();
 	if (pipe(fd)<0) {
 		printf("Не удалось создать pipe\n");
 		exit(-1);
 	}
+        result = fork();
+        if (result < 0) {
+                printf("ошибка при запуске fork()\n");
+                exit(-1);
+        }
+	else if (result > 0) {
+		if(close (fd[0])<0) {
+		 printf("Не удалось закрыть pipe для чтения\n");
+                exit(-1);
+        }
+   else if (result > 0) {
+                if(close (fd[1])<0) {
+                 printf("Не удалось закрыть pipe для записи\n");
+                exit(-1);
+        }
+
+	if(close(fd[1])<0) {
+
 	size = write(fd[1], string, 17);
 	if (size != 17) {
  		printf("Не удалось записать 17 байт из строки\n");
